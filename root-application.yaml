@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mlops-app-of-apps
+  namespace: argocd   # ArgoCD namespace
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/GregoryKucherkov/MlOPs_argoCD
+    path: applications   # folder containing child apps
+    targetRevision: master
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd           # ArgoCD watches here
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

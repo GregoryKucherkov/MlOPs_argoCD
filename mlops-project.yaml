@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: mlops
+  namespace: argocd
+spec:
+  description: "Project for MLOps applications"
+  destinations:
+    - namespace: '*'                 # allow apps in any namespace, or specify "mlflow", "minio", etc.
+      server: https://kubernetes.default.svc
+  sourceRepos:
+    - '*'                             # allow apps from any repo, or specify your repo URL
+  clusterResourceWhitelist:
+    - group: '*'                      # optional: allow all cluster resources
+      kind: '*'

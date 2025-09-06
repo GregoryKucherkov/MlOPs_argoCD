@@ -1,0 +1,25 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus-pushgateway
+  namespace: argocd   # ArgoCD's namespace
+spec:
+  project: mlops
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring
+  source:
+    repoURL: https://prometheus-community.github.io/helm-charts
+    chart: prometheus-pushgateway
+    targetRevision: 2.6.0   # pick a stable version
+    helm:
+      valuesObject:
+        service:
+          type: ClusterIP
+          port: 9091
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

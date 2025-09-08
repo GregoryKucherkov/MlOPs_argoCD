@@ -35,7 +35,7 @@ spec:
             secretKey: minio123
 
         service:
-          type: LoadBalancer
+          type: ClusterIP
           port: 5000
 
         envFromSecret: mlflow-secrets

@@ -13,10 +13,32 @@ spec:
     chart: prometheus-pushgateway
     targetRevision: 2.6.0   # pick a stable version
     helm:
-      valuesObject:
+      values: |
+        replicaCount: 1
+
         service:
           type: ClusterIP
           port: 9091
+          annotations: {}
+
+        # ServiceMonitor for Prometheus scraping
+        serviceMonitor:
+          enabled: true
+          namespace: monitoring
+          interval: 30s
+          scrapeTimeout: 10s
+          additionalLabels:
+            release: monitoring
+          annotations: {}
+
+        # Resource limits - minimal for cost efficiency
+        resources:
+          limits:
+            cpu: 200m
+            memory: 256Mi
+          requests:
+            cpu: 100m
+            memory: 128Mi
   syncPolicy:
     automated:
       prune: true
